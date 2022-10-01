@@ -70,10 +70,12 @@ namespace NineMenMorris
         private NineMenMorrisGame _nineMenMorrisGame;
         private Dictionary<string, Point> _uiPointList;
         private GameState _gamestate;
+        private bool _isLastMillMove;
         public NineMenMorrisGUI()
         {
             _nineMenMorrisGame = new NineMenMorrisGame();
             _uiPointList = new Dictionary<string, Point>();
+            _isLastMillMove = false;
             InitializeComponent();
             IntializeGameGUI();
         }
@@ -117,19 +119,36 @@ namespace NineMenMorris
 
         private void HandlePiecePlacement(String point)
         {
-           MoveStatus moveStatus =  _nineMenMorrisGame.PlacePiece(point);
+            MoveStatus moveStatus =  _nineMenMorrisGame.PlacePiece(point);
+            if (moveStatus == MoveStatus.Valid || moveStatus == MoveStatus.Mill)
+            {
+                RefreshUIPointState(point);
+                _gamestate = _nineMenMorrisGame.GetGameState();
+                if (moveStatus == MoveStatus.Mill)
+                    _isLastMillMove = true;
+            }
+        }
+
+        private void HandleMill(String point)
+        {
+            MoveStatus moveStatus = _nineMenMorrisGame.RemovePiece(point);
             if (moveStatus == MoveStatus.Valid)
             {
                 RefreshUIPointState(point);
                 _gamestate = _nineMenMorrisGame.GetGameState();
+                _isLastMillMove = false;
             }
         }
         private void PlayerAction(object sender, RoutedEventArgs e)
         {
             Point currentPoint = sender as Point;
-            if (_gamestate == GameState.PlacingPieces)
-            {
+            if (_isLastMillMove)
+                HandleMill(currentPoint.Name);
+            else if (_gamestate == GameState.PlacingPieces)
                 HandlePiecePlacement(currentPoint.Name);
+            else if (_gamestate == GameState.PiecesPlaced)
+            {
+
             }
         }
     }

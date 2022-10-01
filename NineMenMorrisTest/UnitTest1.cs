@@ -15,7 +15,7 @@ namespace NineMenMorrisTest
         [Test]
         public void testInVaildPoint()
         {
-            MoveStatus moveStatus = _nineMenMorrisGame.PlacePiece("e4", Piece.BlackPiece);
+            MoveStatus moveStatus = _nineMenMorrisGame.PlacePiece("e5", Piece.BlackPiece);
             Assert.AreEqual(moveStatus, MoveStatus.Invalid);
         }
     }

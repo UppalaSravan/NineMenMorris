@@ -69,6 +69,7 @@ namespace NineMenMorris
     {
         private NineMenMorrisGame _nineMenMorrisGame;
         private Dictionary<string, Point> _uiPointList;
+        private GameState _gamestate;
         public NineMenMorrisGUI()
         {
             _nineMenMorrisGame = new NineMenMorrisGame();
@@ -79,7 +80,10 @@ namespace NineMenMorris
         private void IntializeGameGUI()
         {
             _uiPointList.Add("e4", e4);
+            _uiPointList.Add("d5", d5);
+            _uiPointList.Add("d6", d6);
             RefreshUIPointsState();
+            _gamestate = _nineMenMorrisGame.GetGameState();
         }
         private void RefreshUIPointsState()
         {
@@ -109,6 +113,24 @@ namespace NineMenMorris
                     return GUIPointState.Empty;
             }
             return GUIPointState.Empty;
+        }
+
+        private void HandlePiecePlacement(String point)
+        {
+           MoveStatus moveStatus =  _nineMenMorrisGame.PlacePiece(point);
+            if (moveStatus == MoveStatus.Valid)
+            {
+                RefreshUIPointState(point);
+                _gamestate = _nineMenMorrisGame.GetGameState();
+            }
+        }
+        private void PlayerAction(object sender, RoutedEventArgs e)
+        {
+            Point currentPoint = sender as Point;
+            if (_gamestate == GameState.PlacingPieces)
+            {
+                HandlePiecePlacement(currentPoint.Name);
+            }
         }
     }
 }

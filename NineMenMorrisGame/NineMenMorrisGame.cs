@@ -86,12 +86,12 @@ namespace NineMenMorris
                     _gameState = GameState.BlackWon;
             }   
         }
-        public MoveStatus PlacePiece(string point, Piece piece)
+        public MoveStatus PlacePiece(string point)
         {
             MoveStatus moveStatus = MoveStatus.Invalid;
             if (_gameState == GameState.PlacingPieces && IsValidPoint(point) && IsEmptyPoint(point))
             {
-                if (piece == Piece.BlackPiece && _currentTurn == PlayerTurn.Black)
+                if (_currentTurn == PlayerTurn.Black)
                 {
                     _board[point] = PointState.BlackPlaced;
                     _blackPiecesPlaced++;
@@ -107,7 +107,7 @@ namespace NineMenMorris
                     }
 
                 }
-                else if(piece == Piece.WhitePiece && _currentTurn == PlayerTurn.White)
+                else if(_currentTurn == PlayerTurn.White)
                 {
                     _board[point] = PointState.WhitePlaced;
                     _whitePiecesPlaced++;
@@ -164,7 +164,9 @@ namespace NineMenMorris
         }
         private void IntializeBoard()
         {
-            _board.Add("e4", PointState.BlackPlaced);
+            _board.Add("e4", PointState.Empty);
+            _board.Add("d5", PointState.Empty);
+            _board.Add("d6", PointState.Empty);
         }
 
         private MoveStatus IsValidMove(string start, string end)
@@ -180,6 +182,11 @@ namespace NineMenMorris
                 pointState = _board[point];
             }
             return pointState;
+        }
+
+        public GameState GetGameState()
+        {
+            return _gameState;
         }
     }
 }

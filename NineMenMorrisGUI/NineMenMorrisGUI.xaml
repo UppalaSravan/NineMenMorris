@@ -43,13 +43,11 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Images/NineMenMorrisImage.jpg"></ImageBrush>
         </Grid.Background>
-        <local:Point  x:Name="e4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="250,3,0,0"  Height="40" Width="40">
+        <local:Point  x:Name="e4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="250,3,0,0"  Height="40" Width="40" Click="PlayerAction">
         </local:Point>
-        <local:Point x:Name="B1" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="11,105,0,0" VerticalAlignment="top"  Height="40" Width="40" >
+        <local:Point x:Name="d6" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="11,105,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
         </local:Point>
-        <local:Point x:Name="B3" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,208,0,0" VerticalAlignment="top"  Height="40" Width="40" >
-        </local:Point>
-        <local:Point x:Name="B4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="5,320,0,0" VerticalAlignment="top"  Height="40" Width="40" >
+        <local:Point x:Name="d5" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,208,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
         </local:Point>
     </Grid>
 </Window>

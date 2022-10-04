@@ -188,5 +188,10 @@ namespace NineMenMorris
         {
             return _gameState;
         }
+
+        public PlayerTurn GetPlayerTurn()
+        {
+            return _currentTurn;
+        }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NineMenMorris"
         mc:Ignorable="d"
-        Title="NineMenMorris" Height="700" Width="800">
+        Title="NineMenMorris" Height="709" Width="600" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="TriggerStyle" TargetType="local:Point">
             <Style.Triggers>
@@ -40,14 +40,33 @@
         </ControlTemplate>
     </Window.Resources>
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Images/NineMenMorrisImage.jpg"></ImageBrush>
-        </Grid.Background>
-        <local:Point  x:Name="e4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="250,3,0,0"  Height="40" Width="40" Click="PlayerAction">
-        </local:Point>
-        <local:Point x:Name="d6" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="11,105,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
-        </local:Point>
-        <local:Point x:Name="d5" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,208,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
-        </local:Point>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="600"/>
+            <RowDefinition Height="47"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" >
+            <Menu DockPanel.Dock="top">
+                <MenuItem Header="_GameSettings" FontSize="14">
+                    <MenuItem Header="_Human vs Human"/>
+                    <MenuItem Header="_Human vs AI" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Images/NineMenMorrisImage.jpg"></ImageBrush>
+            </Grid.Background>
+            <local:Point  x:Name="e4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="189,3,0,0"  Height="40" Width="40" Click="PlayerAction">
+            </local:Point>
+            <local:Point x:Name="d6" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,97,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
+            </local:Point>
+            <local:Point x:Name="d5" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,190,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
+            </local:Point>
+       </Grid>
+        <Label Grid.Row="2" HorizontalContentAlignment="Center" Background="#FCAE1E" Foreground="#3a3b3c" FontFamily="Comic Sans MS" 
+               FontSize="22" Content="{Binding StatusMessage }" />
     </Grid>
 </Window>

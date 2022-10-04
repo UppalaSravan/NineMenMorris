@@ -51,7 +51,7 @@
                     <MenuItem Header="_Human vs Human"/>
                     <MenuItem Header="_Human vs AI" />
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="_Exit" Click="MenuItem_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>

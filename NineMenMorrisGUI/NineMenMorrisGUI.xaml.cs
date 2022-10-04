@@ -205,5 +205,13 @@ namespace NineMenMorris
                     StatusMessage = GameStatusMessage.WHITE_TURN;
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            if (menuItem.Header.ToString().ToLower().Contains("exit"))
+                Application.Current.Shutdown();
+
+        }
     }
 }

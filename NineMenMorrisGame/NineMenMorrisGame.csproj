@@ -41,7 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPointManager.cs" />
+    <Compile Include="MorrisGame.cs" />
     <Compile Include="NineMenMorrisGame.cs" />
+    <Compile Include="NineMensPointList.cs" />
+    <Compile Include="NineMensPointsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

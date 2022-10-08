@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GenericMorris;
 
 namespace NineMenMorris
 {
@@ -28,8 +29,12 @@ namespace NineMenMorris
     class GameStatusMessage
     {
         public const string GAME_START = "White Player Starts";
-        public const string WHITE_TURN = "White Turn";
-        public const string BLACK_TURN = "Black Turn";
+        public const string WHITE_TURN = "White Player to ";
+        public const string BLACK_TURN = "Black Player to ";
+        public const string PLACE_PIECE = "Place Piece";
+        public const string MOVE_PIECE =  "Move Piece";
+        public const string REMOVE_BLACK_PIECE = "Remove Black Piece";
+        public const string REMOVE_WHITE_PIECE = "Remove White Piece";
         public const string WHITE_WON =  "White Won";
         public const string BLACK_WON = "Black Won";
     }
@@ -116,9 +121,30 @@ namespace NineMenMorris
         }
         private void IntializeGameGUI()
         {
-            _uiPointList.Add("e4", e4);
-            _uiPointList.Add("d5", d5);
-            _uiPointList.Add("d6", d6);
+            _uiPointList.Add(NineMensPointList.POINT_E4, e4);
+            _uiPointList.Add(NineMensPointList.POINT_E3, e3);
+            _uiPointList.Add(NineMensPointList.POINT_E5, e5);
+            _uiPointList.Add(NineMensPointList.POINT_C3, c3);
+            _uiPointList.Add(NineMensPointList.POINT_C4, c4);
+            _uiPointList.Add(NineMensPointList.POINT_C5, c5);
+            _uiPointList.Add(NineMensPointList.POINT_D5, d5);
+            _uiPointList.Add(NineMensPointList.POINT_D6, d6);
+            _uiPointList.Add(NineMensPointList.POINT_D1, d1);
+            _uiPointList.Add(NineMensPointList.POINT_A1, a1);
+            _uiPointList.Add(NineMensPointList.POINT_A4, a4);
+            _uiPointList.Add(NineMensPointList.POINT_A7, a7);
+            _uiPointList.Add(NineMensPointList.POINT_B2, b2);
+            _uiPointList.Add(NineMensPointList.POINT_B4, b4);
+            _uiPointList.Add(NineMensPointList.POINT_B6, b6);
+            _uiPointList.Add(NineMensPointList.POINT_F2, f2);
+            _uiPointList.Add(NineMensPointList.POINT_F4, f4);
+            _uiPointList.Add(NineMensPointList.POINT_F6, f6);
+            _uiPointList.Add(NineMensPointList.POINT_G1, g1);
+            _uiPointList.Add(NineMensPointList.POINT_G4, g4);
+            _uiPointList.Add(NineMensPointList.POINT_G7, g7);
+            _uiPointList.Add(NineMensPointList.POINT_D2, d2);
+            _uiPointList.Add(NineMensPointList.POINT_D3, d3);
+            _uiPointList.Add(NineMensPointList.POINT_D7, d7);
             RefreshUIPointsState();
             _gamestate = _nineMenMorrisGame.GetGameState();
         }
@@ -197,12 +223,26 @@ namespace NineMenMorris
                 else
                     StatusMessage = GameStatusMessage.WHITE_WON;
             }
-            else
+            else if (_isLastMillMove)
             {
                 if (_nineMenMorrisGame.GetPlayerTurn() == PlayerTurn.Black)
-                    StatusMessage = GameStatusMessage.BLACK_TURN;
+                    StatusMessage = GameStatusMessage.BLACK_TURN + GameStatusMessage.REMOVE_WHITE_PIECE;
                 else
-                    StatusMessage = GameStatusMessage.WHITE_TURN;
+                    StatusMessage = GameStatusMessage.WHITE_TURN + GameStatusMessage.REMOVE_BLACK_PIECE;
+            }
+            else if (_gamestate == GameState.PlacingPieces)
+            {
+                if (_nineMenMorrisGame.GetPlayerTurn() == PlayerTurn.Black)
+                    StatusMessage = GameStatusMessage.BLACK_TURN + GameStatusMessage.PLACE_PIECE;
+                else
+                    StatusMessage = GameStatusMessage.WHITE_TURN + GameStatusMessage.PLACE_PIECE;
+            }
+            else if (_gamestate == GameState.PiecesPlaced)
+            {
+                if (_nineMenMorrisGame.GetPlayerTurn() == PlayerTurn.Black)
+                    StatusMessage = GameStatusMessage.BLACK_TURN + GameStatusMessage.MOVE_PIECE;
+                else
+                    StatusMessage = GameStatusMessage.WHITE_TURN + GameStatusMessage.MOVE_PIECE;
             }
         }
 

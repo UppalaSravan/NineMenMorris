@@ -65,7 +65,32 @@
             </local:Point>
             <local:Point x:Name="d5" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,190,0,0" VerticalAlignment="top"  Height="40" Width="40" Click="PlayerAction">
             </local:Point>
-       </Grid>
+            <local:Point x:Name="d1" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="7,190,0,0"  Height="40" Width="40" Click="PlayerAction"  VerticalAlignment="Bottom"  >
+            </local:Point>
+            <local:Point x:Name="a1" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-545,180,0,0"  Height="40" Width="40" Click="PlayerAction"  VerticalAlignment="Bottom"  >
+            </local:Point>
+            <local:Point x:Name="a4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-545,0,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" >
+            </local:Point>
+            <local:Point x:Name="a7" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-545,0,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Top" >
+            </local:Point>
+            <local:Point x:Name="b2" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="94,375,0,0"  Click="PlayerAction" HorizontalAlignment="Left" Height="40" Width="40" VerticalAlignment="Center"/>
+            <local:Point x:Name="b4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="94,0,0,0"  Click="PlayerAction" HorizontalAlignment="Left" Height="40" Width="40" VerticalAlignment="Center"/>
+            <local:Point x:Name="b6" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-370,95,0,0"  Click="PlayerAction"  Height="40" Width="40" VerticalAlignment="Top"/>
+            <local:Point x:Name="f2" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="375,375,0,0"  Click="PlayerAction"  Height="40" Width="40" VerticalAlignment="Center"/>
+            <local:Point x:Name="f4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="375,0,0,0"  Click="PlayerAction"  Height="40" Width="40" VerticalAlignment="Center"/>
+            <local:Point x:Name="f6" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="375,-375,0,0"  Click="PlayerAction"  Height="40" Width="40" VerticalAlignment="Center"/>
+            <local:Point x:Name="g1" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="545,180,0,0"  Height="40" Width="40" Click="PlayerAction"  VerticalAlignment="Bottom"  />
+            <local:Point x:Name="g4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="545,0,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" />
+            <local:Point x:Name="g7" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="545,0,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Top" />
+            <local:Point x:Name="e3" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="190,186,0,0"  Height="40" Width="40" Click="PlayerAction"  VerticalAlignment="Center"  />
+            <local:Point x:Name="e5" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="190,-186,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" />
+            <local:Point x:Name="c3" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-180,186,0,0"  Height="40" Width="40" Click="PlayerAction"  VerticalAlignment="Center"  />
+            <local:Point x:Name="c4" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-180,0,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" />
+            <local:Point x:Name="c5" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="-180,-186,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" />
+            <local:Point x:Name="d2" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="0,380,0,0"  Height="40" Width="40" Click="PlayerAction"  VerticalAlignment="Center"  />
+            <local:Point x:Name="d3" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="0,186,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" />
+            <local:Point x:Name="d7" Template="{StaticResource ButtonControl}" Style="{StaticResource TriggerStyle}" Margin="0,-550,0,0"  Height="40" Width="40"  Click="PlayerAction" VerticalAlignment="Center" />
+        </Grid>
         <Label Grid.Row="2" HorizontalContentAlignment="Center" Background="#FCAE1E" Foreground="#3a3b3c" FontFamily="Comic Sans MS" 
                FontSize="22" Content="{Binding StatusMessage }" />
     </Grid>

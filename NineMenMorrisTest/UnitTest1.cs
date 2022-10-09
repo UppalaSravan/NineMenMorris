@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using NineMenMorris;
+using GenericMorris;
 
 namespace NineMenMorrisTest
 {

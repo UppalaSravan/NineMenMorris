@@ -48,11 +48,11 @@ namespace GenericMorris
         private readonly int MAX_PIECE_COUNT;
         private readonly int MIN_PIECE_COUNT;
         private bool _isLastMoveMill;
-        private IPointManager _pointsManager;
-        public MorrisGame(IPointManager pointManager,int minPieceCount, int maxPieceCount)
+        private PointsManager _pointsManager;
+        public MorrisGame(string mappingFilePath, int minPieceCount, int maxPieceCount)
         {
             _board = new Dictionary<string, PointState>();
-            _pointsManager = pointManager;
+            _pointsManager = new PointsManager(mappingFilePath);
             MAX_PIECE_COUNT = maxPieceCount;
             MIN_PIECE_COUNT = minPieceCount;
             _gameState = GameState.PlacingPieces;

@@ -39,14 +39,5 @@ namespace NineMenMorris
         public const string POINT_G1 = "g1";
         public const string POINT_G4 = "g4";
         public const string POINT_G7 = "g7";
-
-        public static List<string> GetAllValidPoints()
-        {
-           Type NineMensPointListType =  typeof(NineMensPointList);
-           FieldInfo[] feilds = NineMensPointListType.GetFields(BindingFlags.Public | BindingFlags.Static);
-           return feilds.Where(f => f.FieldType == typeof(string))
-          .ToDictionary(f => f.Name,
-                        f => (string)f.GetValue(null)).Values.ToList();
-        }
     }
 }

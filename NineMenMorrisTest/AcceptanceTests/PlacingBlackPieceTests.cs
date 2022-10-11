@@ -4,7 +4,7 @@ using GenericMorris;
 
 namespace NineMenMorrisTest.AcceptanceTests
 {
-    public class PlacingWhitePiece
+    public class PlacingBlackPieceTests
     {
         private NineMenMorrisGame _nineMenMorrisGame;
         [SetUp]
@@ -16,7 +16,9 @@ namespace NineMenMorrisTest.AcceptanceTests
         [Test]
         public void testValidPiecePlacement()
         {
-            Assert.AreEqual(MoveStatus.Valid, _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A1));
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A1);
+            //Black Turn
+            Assert.AreEqual(MoveStatus.Valid, _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A4));
         }
 
         [Test]
@@ -25,9 +27,8 @@ namespace NineMenMorrisTest.AcceptanceTests
             //White Turn
             _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A1);
             //Black Turn
-            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B2);
-            //White Turn
             Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A1));
         }
+
     }
 }

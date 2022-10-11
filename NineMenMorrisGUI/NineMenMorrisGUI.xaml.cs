@@ -246,12 +246,26 @@ namespace NineMenMorris
             }
         }
 
+        private void ResetGameUI()
+        {
+            RefreshUIPointsState();
+            _gamestate = _nineMenMorrisGame.GetGameState();
+        }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             if (menuItem.Header.ToString().ToLower().Contains("exit"))
                 Application.Current.Shutdown();
-
+            else if (menuItem.Header.ToString().Contains("Human vs Human"))
+            {
+                _nineMenMorrisGame.ResetBoard();
+                ResetGameUI();
+                StatusMessage = GameStatusMessage.GAME_START;
+            }
+            else
+            {
+                //New Game Human vs Computer
+            }
         }
     }
 }

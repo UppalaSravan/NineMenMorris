@@ -166,7 +166,20 @@ namespace GenericMorris
             }
             return moveStatus;
         }
-
+        public void ResetBoard()
+        {
+            _gameState = GameState.PlacingPieces;
+            _currentTurn = PlayerTurn.White;
+            _whitePiecesPlaced = 0;
+            _blackPiecesPlaced = 0;
+            _whitePiecesCount = 0;
+            _blackPiecesCount = 0;
+            _isLastMoveMill = false;
+            foreach (string point in _pointsManager.GetListofValidPoints())
+            {
+                _board[point] = PointState.Empty;
+            };
+        }
         private bool IsValidPoint(string point)
         {
             return _board.ContainsKey(point);
@@ -250,6 +263,7 @@ namespace GenericMorris
                 _board.Add(point, PointState.Empty);
             };
         }
+
 
         private MoveStatus IsValidMove(string start, string end)
         {

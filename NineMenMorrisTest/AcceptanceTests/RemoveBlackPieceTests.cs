@@ -41,5 +41,39 @@ namespace NineMenMorrisTest.AcceptanceTests
             Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.RemovePiece(NineMensPointList.POINT_A1));
             Assert.AreEqual(PlayerTurn.White, _nineMenMorrisGame.GetPlayerTurn());
         }
+
+        [Test]
+        public void testInvalidRemovalFromMill()
+        {
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B2);
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_F2);
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B4);
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_F4);
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_C5);
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_F6);
+
+            Assert.AreEqual(MoveStatus.Valid, _nineMenMorrisGame.RemovePiece(NineMensPointList.POINT_C5));
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_C5);
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_D1);
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B6);
+
+            Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.RemovePiece(NineMensPointList.POINT_F6));
+
+
+        }
+
     }
 }

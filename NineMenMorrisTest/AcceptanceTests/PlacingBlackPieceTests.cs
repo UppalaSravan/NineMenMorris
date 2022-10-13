@@ -80,6 +80,7 @@ namespace NineMenMorrisTest.AcceptanceTests
             //White Turn
             _nineMenMorrisGame.MakeMove(NineMensPointList.POINT_G4, NineMensPointList.POINT_F4);
 
+            // Condition to check invalid move
             Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B6));
         }
     }

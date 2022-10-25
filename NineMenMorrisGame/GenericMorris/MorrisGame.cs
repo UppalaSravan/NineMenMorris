@@ -94,6 +94,7 @@ namespace GenericMorris
                 {
                     _board[point] = PointState.BlackPlaced;
                     _blackPiecesPlaced++;
+                    _blackPiecesCount++;
                     if (!IsMillPoint(point))
                     {
                         _currentTurn = PlayerTurn.White;
@@ -110,6 +111,7 @@ namespace GenericMorris
                 {
                     _board[point] = PointState.WhitePlaced;
                     _whitePiecesPlaced++;
+                    _whitePiecesCount++;
                     if (!IsMillPoint(point))
                     {
                         _currentTurn = PlayerTurn.Black;
@@ -129,7 +131,40 @@ namespace GenericMorris
         public MoveStatus MakeMove(string start, string end)
         {
             MoveStatus moveStatus = MoveStatus.Invalid;
-
+            if (MoveStatus.Valid ==  IsValidMove(start,end))
+            {
+                if (_currentTurn == PlayerTurn.Black && _board[start] == PointState.BlackPlaced)
+                {
+                    _board[start] = PointState.Empty;
+                    _board[end] = PointState.BlackPlaced;
+                    if (!IsMillPoint(end))
+                    {
+                        _currentTurn = PlayerTurn.White;
+                        moveStatus = MoveStatus.Valid;
+                    }
+                    else
+                    {
+                        moveStatus = MoveStatus.Mill;
+                        _isLastMoveMill = true;
+                    }
+                }
+                else if (_currentTurn == PlayerTurn.White && _board[start] == PointState.WhitePlaced )
+                {
+                    _board[start] = PointState.Empty;
+                    _board[end] = PointState.WhitePlaced;
+                    if (!IsMillPoint(end))
+                    {
+                        _currentTurn = PlayerTurn.Black;
+                        moveStatus = MoveStatus.Valid;
+                    }
+                    else
+                    {
+                        moveStatus = MoveStatus.Mill;
+                        _isLastMoveMill = true;
+                    }
+                }
+                SetGameState();
+            }
             return moveStatus;
         }
 
@@ -267,6 +302,18 @@ namespace GenericMorris
 
         private MoveStatus IsValidMove(string start, string end)
         {
+            if (IsValidPoint(start) && IsValidPoint(end))
+            {
+                if (_gameState == GameState.PiecesPlaced && _isLastMoveMill == false && _board[end] == PointState.Empty)
+                {
+                    if ((_currentTurn == PlayerTurn.White && _board[start] == PointState.WhitePlaced) ||
+                        (_currentTurn == PlayerTurn.Black && _board[start] == PointState.BlackPlaced))
+                    {
+                        if (_pointsManager.GetAdjacentPoints(start).Any(point => point.Equals(end)))
+                            return MoveStatus.Valid;
+                    }
+                }
+            }
             return MoveStatus.Invalid;
         }
     }

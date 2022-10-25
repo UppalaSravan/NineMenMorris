@@ -21,7 +21,7 @@
                     <Setter Property="Background" Value="#c1dad6"/>
                     <Setter Property="BorderBrush" Value="White"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path = CurrentState, RelativeSource= {RelativeSource self}}" Value="{x:Static local:GUIPointState.WhiteSelected}">
+                <DataTrigger Binding="{Binding Path = CurrentState, RelativeSource= {RelativeSource self}}" Value="{x:Static local:GUIPointState.BlackSelected}">
                     <Setter Property="Background" Value="#4d4c5c"/>
                     <Setter Property="BorderBrush" Value="White"/>
                 </DataTrigger>

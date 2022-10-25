@@ -85,6 +85,7 @@ namespace NineMenMorris
         private GameState _gamestate;
         private bool _isLastMillMove;
         private string _statusMsg;
+        private string _selection;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -115,6 +116,7 @@ namespace NineMenMorris
             _nineMenMorrisGame = new NineMenMorrisGame();
             _uiPointList = new Dictionary<string, Point>();
             _isLastMillMove = false;
+            _selection = string.Empty;
             StatusMessage = GameStatusMessage.GAME_START;
             InitializeComponent();
             IntializeGameGUI();
@@ -159,10 +161,19 @@ namespace NineMenMorris
         }
         private void RefreshUIPointState(string uiPoint)
         {
-            PointState currPointState;
-            currPointState = _nineMenMorrisGame.GetPointState(uiPoint);
-            _uiPointList[uiPoint].CurrentState = ConvertBoardPointtoUIPoint(currPointState);
-            
+            if (uiPoint != _selection)
+            {
+                PointState currPointState;
+                currPointState = _nineMenMorrisGame.GetPointState(uiPoint);
+                _uiPointList[uiPoint].CurrentState = ConvertBoardPointtoUIPoint(currPointState);
+            }
+            else
+            {
+                if (_uiPointList[uiPoint].CurrentState == GUIPointState.Black)
+                    _uiPointList[uiPoint].CurrentState = GUIPointState.BlackSelected;
+                else if(_uiPointList[uiPoint].CurrentState == GUIPointState.White)
+                    _uiPointList[uiPoint].CurrentState = GUIPointState.WhiteSelected;
+            }
         }
         private GUIPointState ConvertBoardPointtoUIPoint(PointState pointState)
         {
@@ -193,12 +204,34 @@ namespace NineMenMorris
         private void HandleMill(String point)
         {
             MoveStatus moveStatus = _nineMenMorrisGame.RemovePiece(point);
-            if (moveStatus == MoveStatus.Valid)
+            if (moveStatus == MoveStatus.Valid || moveStatus == MoveStatus.Won)
             {
                 RefreshUIPointState(point);
                 _gamestate = _nineMenMorrisGame.GetGameState();
                 _isLastMillMove = false;
             }
+        }
+
+        private void HandleMove(String point)
+        {
+            if (_selection == string.Empty)
+            {
+                _selection = point;
+            }
+            else
+            {
+                MoveStatus moveStatus = _nineMenMorrisGame.MakeMove(_selection,point);
+                if (moveStatus == MoveStatus.Valid || moveStatus == MoveStatus.Mill)
+                {
+                    _gamestate = _nineMenMorrisGame.GetGameState();
+                    if (moveStatus == MoveStatus.Mill)
+                        _isLastMillMove = true;
+                }
+                string startpoint = _selection;
+                _selection = string.Empty;
+                RefreshUIPointState(startpoint);
+            }
+            RefreshUIPointState(point);
         }
         private void PlayerAction(object sender, RoutedEventArgs e)
         {
@@ -209,7 +242,7 @@ namespace NineMenMorris
                 HandlePiecePlacement(currentPoint.Name);
             else if (_gamestate == GameState.PiecesPlaced)
             {
-
+                HandleMove(currentPoint.Name);
             }
             ShowStatustoUI();
         }

@@ -299,7 +299,7 @@ namespace GenericMorris
             };
         }
 
-        private bool IsFlyMove()
+        private bool IsValidFlyMove()
         {
             if (_currentTurn == PlayerTurn.Black && _blackPiecesCount == MIN_PIECE_COUNT)
                 return true;
@@ -317,7 +317,7 @@ namespace GenericMorris
                     if ((_currentTurn == PlayerTurn.White && _board[start] == PointState.WhitePlaced) ||
                         (_currentTurn == PlayerTurn.Black && _board[start] == PointState.BlackPlaced))
                     {
-                        if (_pointsManager.GetAdjacentPoints(start).Any(point => point.Equals(end)) || IsFlyMove())
+                        if (_pointsManager.GetAdjacentPoints(start).Any(point => point.Equals(end)) || IsValidFlyMove())
                             return MoveStatus.Valid;
                     }
                 }

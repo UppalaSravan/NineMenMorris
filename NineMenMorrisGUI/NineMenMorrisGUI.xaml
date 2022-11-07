@@ -55,6 +55,10 @@
                     <Separator />
                     <MenuItem Header="_Exit" Click="MenuItem_Click" />
                 </MenuItem>
+                <MenuItem Header="_NewGame" FontSize="14">
+                    <MenuItem Header="_Human vs Human" Click="MenuItem_Click" />
+                    <MenuItem Header="_Human vs AI" Click="MenuItem_Click"  />
+                </MenuItem>
             </Menu>
         </DockPanel>
         <Grid Grid.Row="1">

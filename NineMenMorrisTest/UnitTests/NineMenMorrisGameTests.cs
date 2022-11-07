@@ -10,6 +10,7 @@ namespace NineMenMorrisTest.UnitTests
     public class NineMenMorrisGameTests
     {
         private NineMenMorrisGame _nineMenMorrisGame;
+        private static int MAX_COUNT = 9;
 
         [SetUp]
         public void Setup()
@@ -112,5 +113,38 @@ namespace NineMenMorrisTest.UnitTests
 
         }
 
+        [Test]
+        public void testRemainingWhitePieces()
+        {
+            Assert.AreEqual(MAX_COUNT, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.White));
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A1);
+            Assert.AreEqual(MAX_COUNT-1, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.White));
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A4);
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B2);
+            Assert.AreEqual(MAX_COUNT - 2, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.White));
+        }
+
+        [Test]
+        public void testRemainingBlackPieces()
+        {
+            Assert.AreEqual(MAX_COUNT, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.Black));
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A1);
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_A4);
+            Assert.AreEqual(MAX_COUNT - 1, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.Black));
+
+            //White Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_B2);
+            //Black Turn
+            _nineMenMorrisGame.PlacePiece(NineMensPointList.POINT_C3);
+            Assert.AreEqual(MAX_COUNT - 2, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.Black));
+        }
     }
 }

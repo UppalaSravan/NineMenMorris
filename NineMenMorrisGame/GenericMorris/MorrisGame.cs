@@ -85,6 +85,14 @@ namespace GenericMorris
             return _currentTurn;
         }
 
+        public int GetPiecesleftforPlacement(PlayerTurn playerTurn)
+        {
+            if (playerTurn == PlayerTurn.Black)
+                return MAX_PIECE_COUNT - _blackPiecesPlaced;
+            else
+                return MAX_PIECE_COUNT - _whitePiecesPlaced;
+        }
+
         public MoveStatus PlacePiece(string point)
         {
             MoveStatus moveStatus = MoveStatus.Invalid;

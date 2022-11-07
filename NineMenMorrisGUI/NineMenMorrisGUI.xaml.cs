@@ -37,6 +37,8 @@ namespace NineMenMorris
         public const string REMOVE_WHITE_PIECE = "Remove White Piece";
         public const string WHITE_WON =  "White Won";
         public const string BLACK_WON = "Black Won";
+        public const string PLACED_COUNT = "Placed {0} ";
+        public const string REMAIN_COUNT = "        Remaining Pieces - {0}";
     }
     class Point : Button, INotifyPropertyChanged
     {
@@ -266,9 +268,11 @@ namespace NineMenMorris
             else if (_gamestate == GameState.PlacingPieces)
             {
                 if (_nineMenMorrisGame.GetPlayerTurn() == PlayerTurn.Black)
-                    StatusMessage = GameStatusMessage.BLACK_TURN + GameStatusMessage.PLACE_PIECE;
+                    StatusMessage = GameStatusMessage.BLACK_TURN + GameStatusMessage.PLACE_PIECE +
+                                    string.Format(GameStatusMessage.REMAIN_COUNT, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.Black));
                 else
-                    StatusMessage = GameStatusMessage.WHITE_TURN + GameStatusMessage.PLACE_PIECE;
+                    StatusMessage = GameStatusMessage.WHITE_TURN + GameStatusMessage.PLACE_PIECE +
+                                    string.Format(GameStatusMessage.REMAIN_COUNT, _nineMenMorrisGame.GetPiecesleftforPlacement(PlayerTurn.White));
             }
             else if (_gamestate == GameState.PiecesPlaced)
             {

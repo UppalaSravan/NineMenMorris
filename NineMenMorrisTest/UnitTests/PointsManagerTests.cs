@@ -26,6 +26,17 @@ namespace NineMenMorrisTest.UnitTests
             Assert.IsTrue(points.Contains(NineMensPointList.POINT_A4));
             Assert.IsTrue(points.Contains(NineMensPointList.POINT_F6));
         }
+
+        [Test]
+        public void testGetListofInValidPoints()
+        {
+            List<string> points = _pointsManager.GetListofValidPoints();
+            Assert.AreEqual(points.Count, 24);
+            Assert.IsFalse(points.Contains("a3"));
+            Assert.IsFalse(points.Contains("a5"));
+            Assert.IsFalse(points.Contains("c1"));
+        }
+
         [Test]
         public void testListValidAdjacentPoints()
         {
@@ -61,6 +72,22 @@ namespace NineMenMorrisTest.UnitTests
             foreach(List<string> millSet in millSets)
             {
                 Assert.IsTrue(millSet.All(value => millSet1.Contains(value)) ||
+                              millSet.All(value => millSet2.Contains(value)));
+            }
+
+        }
+
+        [Test]
+        public void testInValidMillPoints()
+        {
+            List<List<string>> millSets = _pointsManager.GetAllPossibleMills(NineMensPointList.POINT_A1);
+            List<string> millSet1 = new List<string> { NineMensPointList.POINT_A1,
+                                                       NineMensPointList.POINT_A4,NineMensPointList.POINT_B2 };
+            List<string> millSet2 = new List<string> { NineMensPointList.POINT_A1,
+                                                       NineMensPointList.POINT_D1,NineMensPointList.POINT_G7 };
+            foreach (List<string> millSet in millSets)
+            {
+                Assert.IsFalse(millSet.All(value => millSet1.Contains(value)) ||
                               millSet.All(value => millSet2.Contains(value)));
             }
 

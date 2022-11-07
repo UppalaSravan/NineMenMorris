@@ -89,6 +89,28 @@ namespace NineMenMorrisTest.UnitTests
             CompletePiecePlacement();
             Assert.AreEqual(GameState.PiecesPlaced, _nineMenMorrisGame.GetGameState());
         }
+        [Test]
+        public void testInValidMakeMoves()
+        {
+            CompletePiecePlacement();
+            //Occupied Point
+            Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.MakeMove(NineMensPointList.POINT_A1, NineMensPointList.POINT_A4));
+            //NonAdjacent Point
+            Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.MakeMove(NineMensPointList.POINT_A1, NineMensPointList.POINT_D3));
+            //InValid Turn
+            Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.MakeMove(NineMensPointList.POINT_D2, NineMensPointList.POINT_D3));
+            //Empty Point
+            Assert.AreEqual(MoveStatus.Invalid, _nineMenMorrisGame.MakeMove(NineMensPointList.POINT_D3, NineMensPointList.POINT_C3));
+        }
+
+        [Test]
+        public void testValidMakeMoves()
+        {
+            CompletePiecePlacement();
+            //Empty Adjacent Point
+            Assert.AreEqual(MoveStatus.Valid, _nineMenMorrisGame.MakeMove(NineMensPointList.POINT_B4, NineMensPointList.POINT_B6));
+
+        }
 
     }
 }

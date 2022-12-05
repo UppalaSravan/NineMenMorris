@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace GenericMorris
 {
@@ -38,17 +39,32 @@ namespace GenericMorris
     }
     public class MorrisGame
     {
-        private Dictionary<string, PointState> _board;
-        private GameState _gameState;
-        private PlayerTurn _currentTurn;
-        private int _whitePiecesPlaced;
-        private int _blackPiecesPlaced;
-        private int _whitePiecesCount;
-        private int _blackPiecesCount;
-        private readonly int MAX_PIECE_COUNT;
-        private readonly int MIN_PIECE_COUNT;
-        private bool _isLastMoveMill;
-        private PointsManager _pointsManager;
+        [JsonProperty]
+        protected Dictionary<string, PointState> _board;
+        [JsonProperty]
+        protected GameState _gameState;
+        [JsonProperty]
+        protected PlayerTurn _currentTurn;
+        [JsonProperty]
+        protected int _whitePiecesPlaced;
+        [JsonProperty]
+        protected int _blackPiecesPlaced;
+        [JsonProperty]
+        protected int _whitePiecesCount;
+        [JsonProperty]
+        protected int _blackPiecesCount;
+        [JsonProperty]
+        protected int MAX_PIECE_COUNT;
+        [JsonProperty]
+        protected int MIN_PIECE_COUNT;
+        [JsonProperty]
+        protected bool _isLastMoveMill;
+        [JsonProperty]
+        protected PointsManager _pointsManager;
+        [JsonProperty]
+        protected string _whitePlayerName;
+        [JsonProperty]
+        protected string _blackPlayerName;
         public MorrisGame(string mappingFilePath, int minPieceCount, int maxPieceCount)
         {
             _board = new Dictionary<string, PointState>();
@@ -62,10 +78,12 @@ namespace GenericMorris
             _whitePiecesCount = 0;
             _blackPiecesCount = 0;
             _isLastMoveMill = false;
+            _whitePlayerName = "White Player";
+            _blackPlayerName = "Black Player";
             IntializeBoard();
         }
 
-        public PointState GetPointState(string point)
+        public virtual PointState GetPointState(string point)
         {
             PointState pointState = PointState.Empty;
             if (IsValidPoint(point))
@@ -75,17 +93,17 @@ namespace GenericMorris
             return pointState;
         }
 
-        public GameState GetGameState()
+        public virtual GameState GetGameState()
         {
             return _gameState;
         }
 
-        public PlayerTurn GetPlayerTurn()
+        public virtual PlayerTurn GetPlayerTurn()
         {
             return _currentTurn;
         }
 
-        public int GetPiecesleftforPlacement(PlayerTurn playerTurn)
+        public virtual int GetPiecesleftforPlacement(PlayerTurn playerTurn)
         {
             if (playerTurn == PlayerTurn.Black)
                 return MAX_PIECE_COUNT - _blackPiecesPlaced;
@@ -93,7 +111,7 @@ namespace GenericMorris
                 return MAX_PIECE_COUNT - _whitePiecesPlaced;
         }
 
-        public MoveStatus PlacePiece(string point)
+        public virtual MoveStatus PlacePiece(string point)
         {
             MoveStatus moveStatus = MoveStatus.Invalid;
             if (_gameState == GameState.PlacingPieces && IsValidPoint(point) && IsEmptyPoint(point))
@@ -136,7 +154,7 @@ namespace GenericMorris
             return moveStatus;
         }
 
-        public MoveStatus MakeMove(string start, string end)
+        public virtual MoveStatus MakeMove(string start, string end)
         {
             MoveStatus moveStatus = MoveStatus.Invalid;
             if (MoveStatus.Valid ==  IsValidMove(start,end))
@@ -176,7 +194,7 @@ namespace GenericMorris
             return moveStatus;
         }
 
-        public MoveStatus RemovePiece(string point)
+        public virtual MoveStatus RemovePiece(string point)
         {
             MoveStatus moveStatus = MoveStatus.Invalid;
             if ((_gameState == GameState.PiecesPlaced || _gameState == GameState.PlacingPieces) &&
@@ -209,7 +227,7 @@ namespace GenericMorris
             }
             return moveStatus;
         }
-        public void ResetBoard()
+        public virtual void ResetBoard()
         {
             _gameState = GameState.PlacingPieces;
             _currentTurn = PlayerTurn.White;
@@ -223,17 +241,17 @@ namespace GenericMorris
                 _board[point] = PointState.Empty;
             };
         }
-        private bool IsValidPoint(string point)
+        protected virtual bool IsValidPoint(string point)
         {
             return _board.ContainsKey(point);
         }
 
-        private bool IsEmptyPoint(string point)
+        protected virtual bool IsEmptyPoint(string point)
         {
             return _board[point] == PointState.Empty;
         }
 
-        private bool IsMillPoint(string point)
+        protected virtual bool IsMillPoint(string point)
         {
             bool isMillMove = false;
             if (IsValidPoint(point) && _board[point] != PointState.Empty)
@@ -258,7 +276,7 @@ namespace GenericMorris
             return isMillMove;
         }
 
-        private void SetGameState()
+        protected virtual void SetGameState()
         {
             if (_gameState == GameState.PlacingPieces && _blackPiecesPlaced == MAX_PIECE_COUNT && _whitePiecesPlaced == MAX_PIECE_COUNT)
                 _gameState = GameState.PiecesPlaced;
@@ -271,7 +289,7 @@ namespace GenericMorris
             }
         }
 
-        private bool IsValidPiecetoRemove(string point)
+        protected virtual bool IsValidPiecetoRemove(string point)
         {
             bool retVal = false;
             if (!IsValidPoint(point))
@@ -299,7 +317,7 @@ namespace GenericMorris
             return retVal;
         }
 
-        private void IntializeBoard()
+        protected virtual void IntializeBoard()
         {
             foreach (string point in _pointsManager.GetListofValidPoints())
             {
@@ -307,7 +325,7 @@ namespace GenericMorris
             };
         }
 
-        private bool IsValidFlyMove()
+        protected virtual bool IsValidFlyMove()
         {
             if (_currentTurn == PlayerTurn.Black && _blackPiecesCount == MIN_PIECE_COUNT)
                 return true;
@@ -316,7 +334,7 @@ namespace GenericMorris
             return false;
         }
 
-        private MoveStatus IsValidMove(string start, string end)
+        protected virtual MoveStatus IsValidMove(string start, string end)
         {
             if (IsValidPoint(start) && IsValidPoint(end))
             {
@@ -331,6 +349,15 @@ namespace GenericMorris
                 }
             }
             return MoveStatus.Invalid;
+        }
+
+        public string GetWiningPlayerName()
+        {
+            if (_gameState == GameState.BlackWon)
+                return _blackPlayerName;
+            if (_gameState == GameState.WhiteWon)
+                return _whitePlayerName;
+            return string.Empty;
         }
     }
 }

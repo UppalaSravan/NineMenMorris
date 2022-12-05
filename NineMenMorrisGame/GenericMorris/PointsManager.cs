@@ -6,15 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using GenericMorris;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace GenericMorris
 {
     public class PointsManager 
     {
+        [JsonProperty]
         BoardPointMappings _boardPointMappings;
+        [JsonProperty]
+        string _jsonfilePath;
+        [JsonProperty]
+        readonly string DEFAULT_PATH = "JsonMappings/NineMenMorris.json";
         public PointsManager(string mappingFilePath)
         {
-            PopulatePointMappings(mappingFilePath);
+            if (!string.IsNullOrEmpty(mappingFilePath))
+                _jsonfilePath = mappingFilePath;
+            else
+                _jsonfilePath = DEFAULT_PATH;
+            PopulatePointMappings(_jsonfilePath);
         }
         public List<string> GetListofValidPoints()
         {

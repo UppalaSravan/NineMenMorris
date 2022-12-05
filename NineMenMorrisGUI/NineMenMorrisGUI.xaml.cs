@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +17,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GenericMorris;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace NineMenMorris
 {
@@ -26,6 +30,11 @@ namespace NineMenMorris
         BlackSelected,
         Empty
     }
+    enum GameMode
+    {
+        Human,
+        Computer
+    }
     class GameStatusMessage
     {
         public const string GAME_START = "White Player Starts";
@@ -35,8 +44,7 @@ namespace NineMenMorris
         public const string MOVE_PIECE =  "Move Piece";
         public const string REMOVE_BLACK_PIECE = "Remove Black Piece";
         public const string REMOVE_WHITE_PIECE = "Remove White Piece";
-        public const string WHITE_WON =  "White Won";
-        public const string BLACK_WON = "Black Won";
+        public const string WON =  " Won";
         public const string PLACED_COUNT = "Placed {0} ";
         public const string REMAIN_COUNT = "        Remaining Pieces - {0}";
     }
@@ -88,8 +96,9 @@ namespace NineMenMorris
         private bool _isLastMillMove;
         private string _statusMsg;
         private string _selection;
-
+        private NineMorrisGameFactory _gameFactory;
         public event PropertyChangedEventHandler PropertyChanged;
+        private readonly string JSON_FILE_EXTENSION = "Json files (*.json)|*.json";
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
@@ -116,6 +125,7 @@ namespace NineMenMorris
         {
             this.DataContext = this;
             _nineMenMorrisGame = new NineMenMorrisGame();
+            _gameFactory = new NineMorrisGameFactory();
             _uiPointList = new Dictionary<string, Point>();
             _isLastMillMove = false;
             _selection = string.Empty;
@@ -196,7 +206,7 @@ namespace NineMenMorris
             MoveStatus moveStatus =  _nineMenMorrisGame.PlacePiece(point);
             if (moveStatus == MoveStatus.Valid || moveStatus == MoveStatus.Mill)
             {
-                RefreshUIPointState(point);
+                RefreshUIPointsState();
                 _gamestate = _nineMenMorrisGame.GetGameState();
                 if (moveStatus == MoveStatus.Mill)
                     _isLastMillMove = true;
@@ -208,7 +218,7 @@ namespace NineMenMorris
             MoveStatus moveStatus = _nineMenMorrisGame.RemovePiece(point);
             if (moveStatus == MoveStatus.Valid || moveStatus == MoveStatus.Won)
             {
-                RefreshUIPointState(point);
+                RefreshUIPointsState();
                 _gamestate = _nineMenMorrisGame.GetGameState();
                 _isLastMillMove = false;
             }
@@ -219,11 +229,12 @@ namespace NineMenMorris
             if (_selection == string.Empty)
             {
                 _selection = point;
+                RefreshUIPointState(point);
             }
             else
             {
                 MoveStatus moveStatus = _nineMenMorrisGame.MakeMove(_selection,point);
-                if (moveStatus == MoveStatus.Valid || moveStatus == MoveStatus.Mill)
+                if (moveStatus != MoveStatus.Invalid)
                 {
                     _gamestate = _nineMenMorrisGame.GetGameState();
                     if (moveStatus == MoveStatus.Mill)
@@ -231,9 +242,8 @@ namespace NineMenMorris
                 }
                 string startpoint = _selection;
                 _selection = string.Empty;
-                RefreshUIPointState(startpoint);
+                RefreshUIPointsState();
             }
-            RefreshUIPointState(point);
         }
         private void PlayerAction(object sender, RoutedEventArgs e)
         {
@@ -253,10 +263,7 @@ namespace NineMenMorris
         {
             if (_gamestate == GameState.BlackWon || _gamestate == GameState.WhiteWon)
             {
-                if (_gamestate == GameState.BlackWon)
-                    StatusMessage = GameStatusMessage.BLACK_WON;
-                else
-                    StatusMessage = GameStatusMessage.WHITE_WON;
+                StatusMessage = _nineMenMorrisGame.GetWiningPlayerName() + GameStatusMessage.WON;
             }
             else if (_isLastMillMove)
             {
@@ -288,20 +295,55 @@ namespace NineMenMorris
             RefreshUIPointsState();
             _gamestate = _nineMenMorrisGame.GetGameState();
         }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void NewGame_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             if (menuItem.Header.ToString().ToLower().Contains("exit"))
                 Application.Current.Shutdown();
-            else if (menuItem.Header.ToString().Contains("Human vs Human"))
-            {
-                _nineMenMorrisGame.ResetBoard();
-                ResetGameUI();
-                StatusMessage = GameStatusMessage.GAME_START;
-            }
             else
             {
-                //New Game Human vs Computer
+                _nineMenMorrisGame = _gameFactory.GetNineMenMorrisGameObject(menuItem.Header.ToString());
+                ResetGameUI();
+                ShowStatustoUI();
+            }
+        }
+
+        private void SaveAndRestore(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MenuItem menuItem = sender as MenuItem;
+                if (menuItem.Header.ToString().ToLower().Contains("restore"))
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = JSON_FILE_EXTENSION;
+                    string json_string = "";
+                    if (openFileDialog.ShowDialog() == true)
+                        json_string = File.ReadAllText(openFileDialog.FileName);
+                    NineMenMorrisGame gameObject = JsonConvert.DeserializeObject<NineMenMorrisGame>(json_string, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+                    _nineMenMorrisGame = gameObject;
+                    ResetGameUI();
+                    ShowStatustoUI();
+                }
+                else
+                {
+                    string json_string = JsonConvert.SerializeObject(_nineMenMorrisGame, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Objects
+
+                    });
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = JSON_FILE_EXTENSION;
+                    if (saveFileDialog.ShowDialog() == true)
+                        File.WriteAllText(saveFileDialog.FileName, json_string);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to save or restore file", "Save/Restore error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

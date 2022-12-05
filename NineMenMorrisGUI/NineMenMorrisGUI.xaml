@@ -48,16 +48,17 @@
         <DockPanel Grid.Row="0" >
             <Menu DockPanel.Dock="top">
                 <MenuItem Header="_GameSettings" FontSize="14">
-                    <MenuItem Header="New Game">
-                        <MenuItem Header="_Human vs Human" Click="MenuItem_Click" />
-                        <MenuItem Header="_Human vs AI" Click="MenuItem_Click"  />
-                    </MenuItem>
+                    <MenuItem Header="Save" Click="SaveAndRestore"/>
+                    <MenuItem Header="Restore" Click="SaveAndRestore"/>
                     <Separator />
-                    <MenuItem Header="_Exit" Click="MenuItem_Click" />
+                    <MenuItem Header="_Exit" Click="NewGame_Click" />
                 </MenuItem>
                 <MenuItem Header="_NewGame" FontSize="14">
-                    <MenuItem Header="_Human vs Human" Click="MenuItem_Click" />
-                    <MenuItem Header="_Human vs Computer" Click="MenuItem_Click"  />
+                    <MenuItem Header="_Human vs Human" Click="NewGame_Click" />
+                    <MenuItem Header="_Human vs Computer">
+                        <MenuItem Header ="_WhitePlayer vs Computer" Click="NewGame_Click"/>
+                        <MenuItem Header ="_BlackPlayer vs Computer" Click="NewGame_Click"/>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
         </DockPanel>

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="GenericMorris\BoardPointMappings.cs" />
     <Compile Include="GenericMorris\MorrisGame.cs" />
+    <Compile Include="NineMensMorris\AutoNineMenMorrisGame.cs" />
     <Compile Include="NineMensMorris\NineMenMorrisGame.cs" />
     <Compile Include="NineMensMorris\NineMensPointList.cs" />
     <Compile Include="GenericMorris\PointsManager.cs" />

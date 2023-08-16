@@ -1,0 +1,55 @@
+setting up a game:
+	1.1 welcome screen - to start the game - to do
+	1.2 Game begin board should be displayed - In progress
+	1.3 game begin with empty board without any coins - In progress
+
+Game Mode: 
+	2.1: default game mode is human vs human - In progress
+	2.2: user should be able to change the game mode in game settings - To do
+	
+Choosing player's turn:
+
+		acc. criteria: 	Display players turn, who needs to play - In progress
+						if white turn, white coin should be placed - In progress
+						if black turn, black coin should be placed - In progress
+
+Placing  a piece:
+	
+	Display count:
+		acc.criterta: 	display the 9 coins of each player on board (white and black) - to do
+						count of coins should reduce once coin is placed - to do
+						 
+	Player Placing:
+		acc.criterta: 	player should place the coin based on their turn - In progress
+						player should not be able to place the coin in already filled cell. - In progress
+						should be able to place the coins until i placed 9 coins - to do
+	
+	
+Mill Formation: 
+		acc. criterta: Once mill formed, mill formed message is displayed - in progress
+		
+Moving a piece:
+
+		acc.criterta: 	once all the coins are placed, player should be able to move the coin one cell besides it. - to do
+						player should not be able to move the coin to invalid cells (flying) - to do
+	
+Flying a piece:
+
+		acc.criterta: 	flying a piece - once the number of coins are less than 4, that player should be able to move the coin anywhere on the board to valid cell - to do
+						player should not be able to move the coin to invalid cell - to do
+	
+removing an opponent's piece:
+
+		acc. criterta: 	after  a mill same player should get one more chance to remove the coin - to do
+						he should not be able to remove the coin from mill - to do
+	
+Determing the game is over:
+
+		acc. criterta:	game over - player has less than  3 coins on game. - to do
+						players has no valid cells to move the coins (Extra) - to do
+						win or lose the game. - to do 
+	
+	
+	
+	
+	
